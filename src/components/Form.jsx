@@ -56,17 +56,16 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
-    setData(prev => ({ ...prev, [name]: newValue }));
-    onDataChange({ ...data, [name]: newValue });
+    const newData = { ...data, [name]: newValue };
+    setData(newData);
+    onDataChange(newData);
   };
 
   const handleArrayChange = (section, index, field, value) => {
-    setData(prev => {
-      const newData = { ...prev };
-      newData[section][index][field] = value;
-      return newData;
-    });
-    onDataChange(data);
+    const newData = { ...data };
+    newData[section][index][field] = value;
+    setData(newData);
+    onDataChange(newData);
   };
 
   const addItem = (section, template) => {
@@ -94,7 +93,7 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
       {/* Stepper */}
       <div className="form-header">
         <div className="form-header-content">
-          <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); onNavigate('dashboard'); }}>
+          <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); onSave(data); onNavigate('dashboard'); }}>
             ← Back to Dashboard
           </a>
           <h2 className="form-title">{initialData ? 'Edit Portfolio' : 'Create Portfolio'}</h2>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import Dashboard from './components/Dashboard';
 import Form from './components/Form';
 import Preview from './components/Preview';
@@ -41,10 +42,11 @@ function App() {
                 setIsEditing(false);
                 setSelectedPortfolioForEdit(null);
               } else {
-                newPortfolios = [...savedPortfolios, data];
+                const newPortfolio = { id: Date.now(), ...data };
+                newPortfolios = [...savedPortfolios, newPortfolio];
               }
               localStorage.setItem('portfolios', JSON.stringify(newPortfolios));
-              setSavedPortfolios(newPortfolios);
+              flushSync(() => setSavedPortfolios(newPortfolios));
             }} />
           </div>
           <div className="preview-panel">

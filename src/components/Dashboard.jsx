@@ -4,9 +4,9 @@ import { Plus, ExternalLink, Edit3, MoreVertical, Layout, Trash2 } from 'lucide-
 const Dashboard = ({ onNavigate, savedPortfolios, onView, onEdit, onDelete }) => {
   // Convert savedPortfolios to project format
   const projects = savedPortfolios.map((portfolio, index) => ({
-    id: index + 1,
+    id: portfolio.id || index + 1,
     title: portfolio.name || 'Unnamed Portfolio',
-    slug: `portfolio-${index + 1}`,
+    slug: `portfolio-${portfolio.id || index + 1}`,
     lastEdited: 'Recently', // Could add timestamp later
     status: 'Published', // Assume published
     thumbnail: null,
