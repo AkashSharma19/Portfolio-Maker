@@ -1,47 +1,59 @@
 const Preview = ({ data, onNavigate, onEdit }) => {
   return (
-    <div className="preview-container">
+    <div style={{ padding: '1rem', height: '100%' }}>
       {onNavigate && (
-        <div className="preview-header">
-          <button className="back-button" onClick={() => onNavigate('dashboard')}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <button style={{ background: 'none', border: 'none', color: '#2563eb', cursor: 'pointer', fontSize: '0.875rem' }} onClick={() => onNavigate('dashboard')}>
             ← Back to Dashboard
           </button>
           {onEdit && (
-            <button className="edit-button" onClick={() => onEdit(data)}>
+            <button style={{ backgroundColor: '#2563eb', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.375rem', cursor: 'pointer' }} onClick={() => onEdit(data)}>
               Edit Portfolio
             </button>
           )}
         </div>
       )}
-      {onNavigate && <h2 className="preview-title">Your Portfolio</h2>}
-      <div className="portfolio-preview">
-        {/* Header */}
-        <div className="portfolio-header">
-          {data.profilePicture && (
-            <img src={data.profilePicture} alt="Profile" className="portfolio-avatar" />
-          )}
-          <h1 className="portfolio-name">{data.name || 'Your Name'}</h1>
-          <p className="portfolio-headline">{data.headline || 'Your Headline'}</p>
-          <p className="portfolio-location">{data.location || 'Your Location'}</p>
+      {onNavigate && <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Your Portfolio</h2>}
+      <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', height: '100%', overflowY: 'auto', padding: '1.5rem' }}>
+        {/* Mockup Frame */}
+        <div style={{ backgroundColor: '#1f2937', borderRadius: '0.5rem 0.5rem 0 0', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.25rem' }}>
+            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#ef4444', borderRadius: '50%' }}></div>
+            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#eab308', borderRadius: '50%' }}></div>
+            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#22c55e', borderRadius: '50%' }}></div>
+          </div>
+          <div style={{ flex: '1', backgroundColor: '#374151', borderRadius: '0.375rem', padding: '0.25rem 0.75rem', color: '#d1d5db', fontSize: '0.875rem' }}>
+            yourportfolio.com
+          </div>
         </div>
+        <div style={{ backgroundColor: 'white', borderRadius: '0 0 0.5rem 0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', minHeight: '100vh', padding: '1.5rem' }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            {data.profilePicture && (
+              <img src={data.profilePicture} alt="Profile" style={{ width: '8rem', height: '8rem', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem' }} />
+            )}
+            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#333' }}>{data.name || 'Your Name'}</h1>
+            <p style={{ fontSize: '1.25rem', color: '#2563eb', marginBottom: '0.5rem' }}>{data.headline || 'Your Headline'}</p>
+            <p style={{ color: '#6b7280' }}>{data.location || 'Your Location'}</p>
+          </div>
 
         {/* Bio */}
         {data.bio && (
-          <div className="portfolio-section">
-            <h2>About Me</h2>
-            <p className="portfolio-bio">{data.bio}</p>
+          <div style={{ marginBottom: '2rem' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#333', borderBottom: '2px solid #2563eb', paddingBottom: '0.5rem' }}>About Me</h2>
+            <p style={{ fontSize: '1.125rem', lineHeight: '1.6', color: '#374151' }}>{data.bio}</p>
           </div>
         )}
 
         {/* Social Links */}
         {(data.email || data.linkedin || data.github || data.website) && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Connect</h2>
-            <div className="flex flex-wrap gap-4">
-              {data.email && <a href={`mailto:${data.email}`} className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Email</a>}
-              {data.linkedin && <a href={data.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">LinkedIn</a>}
-              {data.github && <a href={data.github} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">GitHub</a>}
-              {data.website && <a href={data.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Website</a>}
+          <div style={{ marginBottom: '2rem' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#111827', marginBottom: '1rem' }}>Connect</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+              {data.email && <a href={`mailto:${data.email}`} style={{ color: '#2563eb', textDecoration: 'none' }}>Email</a>}
+              {data.linkedin && <a href={data.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none' }}>LinkedIn</a>}
+              {data.github && <a href={data.github} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none' }}>GitHub</a>}
+              {data.website && <a href={data.website} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none' }}>Website</a>}
             </div>
           </div>
         )}
@@ -148,6 +160,7 @@ const Preview = ({ data, onNavigate, onEdit }) => {
             {data.copyrightText && <p className="text-gray-500 dark:text-gray-400 mt-4">{data.copyrightText}</p>}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
