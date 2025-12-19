@@ -14,19 +14,8 @@ const Preview = ({ data, onNavigate, onEdit }) => {
         </div>
       )}
       {onNavigate && <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Your Portfolio</h2>}
-      <div style={{ backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', height: '100%', overflowY: 'auto', padding: '1.5rem' }}>
-        {/* Mockup Frame */}
-        <div style={{ backgroundColor: '#1f2937', borderRadius: '0.5rem 0.5rem 0 0', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <div style={{ display: 'flex', gap: '0.25rem' }}>
-            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#ef4444', borderRadius: '50%' }}></div>
-            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#eab308', borderRadius: '50%' }}></div>
-            <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#22c55e', borderRadius: '50%' }}></div>
-          </div>
-          <div style={{ flex: '1', backgroundColor: '#374151', borderRadius: '0.375rem', padding: '0.25rem 0.75rem', color: '#d1d5db', fontSize: '0.875rem' }}>
-            yourportfolio.com
-          </div>
-        </div>
-        <div style={{ backgroundColor: 'white', borderRadius: '0 0 0.5rem 0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', minHeight: '100vh', padding: '1.5rem' }}>
+      <div style={{ borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', height: '100%', overflowY: 'auto', padding: '1.5rem' }}>
+        <div style={{ borderRadius: '0.5rem', minHeight: '100vh', padding: '1.5rem' }}>
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             {data.profilePicture && (
