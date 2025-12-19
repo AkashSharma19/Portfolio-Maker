@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const steps = [
   'Identity',
@@ -11,7 +11,7 @@ const steps = [
   'Footer & Closing'
 ];
 
-const Form = ({ onDataChange, onNavigate }) => {
+const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [data, setData] = useState({
     // Identity
@@ -45,6 +45,13 @@ const Form = ({ onDataChange, onNavigate }) => {
     showSocials: false,
     availabilityBadge: false
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setData(initialData);
+      onDataChange(initialData);
+    }
+  }, [initialData, onDataChange]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -90,7 +97,7 @@ const Form = ({ onDataChange, onNavigate }) => {
           <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); onNavigate('dashboard'); }}>
             ← Back to Dashboard
           </a>
-          <h2 className="form-title">Create Portfolio</h2>
+          <h2 className="form-title">{initialData ? 'Edit Portfolio' : 'Create Portfolio'}</h2>
           <div></div>
         </div>
         <div className="stepper">
@@ -190,7 +197,7 @@ const Form = ({ onDataChange, onNavigate }) => {
           Back
         </button>
         <button
-          onClick={activeStep === steps.length - 1 ? () => onNavigate('dashboard') : handleNext}
+          onClick={activeStep === steps.length - 1 ? () => { onSave(data); onNavigate('dashboard'); } : handleNext}
           className="nav-button primary"
         >
           {activeStep === steps.length - 1 ? 'Finish' : 'Next'}

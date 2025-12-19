@@ -1,7 +1,19 @@
-const Preview = ({ data }) => {
+const Preview = ({ data, onNavigate, onEdit }) => {
   return (
     <div className="preview-container">
-      <h2 className="preview-title">Live Preview</h2>
+      {onNavigate && (
+        <div className="preview-header">
+          <button className="back-button" onClick={() => onNavigate('dashboard')}>
+            ← Back to Dashboard
+          </button>
+          {onEdit && (
+            <button className="edit-button" onClick={() => onEdit(data)}>
+              Edit Portfolio
+            </button>
+          )}
+        </div>
+      )}
+      {onNavigate && <h2 className="preview-title">Your Portfolio</h2>}
       <div className="portfolio-preview">
         {/* Header */}
         <div className="portfolio-header">
