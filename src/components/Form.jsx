@@ -73,6 +73,15 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
 
   const handleNestedArrayChange = (section, index, subSection, subIndex, field, value) => {
     const newData = { ...data };
+    
+    // Ensure the nested arrays exist
+    if (!newData[section][index][subSection]) {
+      newData[section][index][subSection] = [];
+    }
+    if (!newData[section][index][subSection][subIndex]) {
+      newData[section][index][subSection][subIndex] = {};
+    }
+    
     newData[section][index][subSection][subIndex][field] = value;
     setData(newData);
     onDataChange(newData);

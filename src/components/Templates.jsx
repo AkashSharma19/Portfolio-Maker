@@ -3,8 +3,8 @@ import React from 'react';
 const Templates = ({ selectedTemplate, onTemplateChange }) => {
   const templates = [
     {
-      id: 'default',
-      name: 'Default',
+      id: 'bento',
+      name: 'Bento',
       description: 'Clean and professional design',
       preview: 'Light background with blue accents'
     },
@@ -29,7 +29,7 @@ const Templates = ({ selectedTemplate, onTemplateChange }) => {
   ];
 
   const templateStyles = {
-    default: { backgroundColor: '#ffffff', border: '2px solid #2563eb' },
+    bento: { backgroundColor: '#ffffff', border: '2px solid #2563eb' },
     dark: { backgroundColor: '#1f2937', border: '2px solid #3b82f6' },
     minimal: { backgroundColor: '#ffffff', border: '2px solid #000000' },
     colorful: { backgroundColor: '#fff8f0', border: '2px solid #e53e3e' }

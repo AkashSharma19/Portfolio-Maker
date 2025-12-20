@@ -12,7 +12,7 @@ function App() {
   const [savedPortfolios, setSavedPortfolios] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedPortfolioForEdit, setSelectedPortfolioForEdit] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState('default');
+  const [selectedTemplate, setSelectedTemplate] = useState('bento');
 
   useEffect(() => {
     const saved = localStorage.getItem('portfolios');
@@ -23,7 +23,7 @@ function App() {
     if (draft) {
       const draftData = JSON.parse(draft);
       setFormData(draftData);
-      setSelectedTemplate(draftData.template || 'default');
+      setSelectedTemplate(draftData.template || 'bento');
     }
   }, []);
 
@@ -78,7 +78,7 @@ function App() {
         localStorage.removeItem('portfolioDraft'); // Clear draft after save
       }} />}
       {page === 'dashboard' ? (
-        <Dashboard onNavigate={setPage} savedPortfolios={savedPortfolios} onEdit={(portfolio) => { setSelectedPortfolioForEdit(portfolio); setIsEditing(true); setFormData(portfolio); setSelectedTemplate(portfolio.template || 'default'); setPage('create'); }} onDelete={(portfolio) => { const newPortfolios = savedPortfolios.filter(p => p !== portfolio); localStorage.setItem('portfolios', JSON.stringify(newPortfolios)); setSavedPortfolios(newPortfolios); }} />
+        <Dashboard onNavigate={setPage} savedPortfolios={savedPortfolios} onEdit={(portfolio) => { setSelectedPortfolioForEdit(portfolio); setIsEditing(true); setFormData(portfolio); setSelectedTemplate(portfolio.template || 'bento'); setPage('create'); }} onDelete={(portfolio) => { const newPortfolios = savedPortfolios.filter(p => p !== portfolio); localStorage.setItem('portfolios', JSON.stringify(newPortfolios)); setSavedPortfolios(newPortfolios); }} />
       ) : page === 'create' ? (
         <div style={{ display: 'flex', flexDirection: window.innerWidth >= 1024 ? 'row' : 'column', minHeight: 'calc(100vh - 80px)', position: 'relative' }}>
           <div style={{ flex: window.innerWidth >= 1024 ? '0 0 40%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
@@ -98,7 +98,7 @@ function App() {
               flushSync(() => setSavedPortfolios(newPortfolios));
             }} />
           </div>
-          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'hidden' }}>
+          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh' }}>
             <Preview data={formData} template={selectedTemplate} />
           </div>
         </div>
@@ -107,7 +107,7 @@ function App() {
           <div style={{ flex: window.innerWidth >= 1024 ? '0 0 40%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
             <Templates selectedTemplate={selectedTemplate} onTemplateChange={handleTemplateChange} />
           </div>
-          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'hidden' }}>
+          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh' }}>
             <Preview data={formData} template={selectedTemplate} />
           </div>
         </div>

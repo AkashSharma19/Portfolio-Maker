@@ -1,11 +1,15 @@
-import DefaultTemplate from './templates/DefaultTemplate';
+import BentoTemplate from './templates/BentoTemplate';
 import DarkTemplate from './templates/DarkTemplate';
 import MinimalTemplate from './templates/MinimalTemplate';
 import ColorfulTemplate from './templates/ColorfulTemplate';
+import React, { useState, useEffect, useRef } from 'react';
 
-const Preview = ({ data, onNavigate, onEdit, template = 'default' }) => {
+const Preview = ({ data, onNavigate, onEdit, template = 'bento' }) => {
+  const containerRef = useRef(null);
+  const [scale, setScale] = useState(1);
+  
   const themes = {
-    default: {
+    bento: {
       backgroundColor: '#ffffff',
       textColor: '#333',
       primaryColor: '#2563eb',
@@ -43,12 +47,43 @@ const Preview = ({ data, onNavigate, onEdit, template = 'default' }) => {
     }
   };
 
-  const theme = themes[template] || themes.default;
+  const theme = themes[template] || themes.bento;
+
+  // 1. SCALING LOGIC
+  useEffect(() => {
+    const calculateScale = () => {
+      if (containerRef.current) {
+        const parentWidth = containerRef.current.offsetWidth;
+        const DESKTOP_WIDTH = 1200; // The fixed width of your Bento Template
+        const padding = 40; // Extra breathing room
+        
+        // Calculate ratio
+        const newScale = (parentWidth - padding) / DESKTOP_WIDTH;
+        
+        // Ensure we don't scale up unnecessarily (optional), but for "Desktop View" usually we just accept the ratio
+        setScale(newScale < 1 ? newScale : 1);
+      }
+    };
+
+    // Initial calculation
+    calculateScale();
+
+    // Listen for resize events on the container
+    const resizeObserver = new ResizeObserver(() => {
+      calculateScale();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   const renderTemplate = () => {
     switch (template) {
-      case 'default':
-        return <DefaultTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
+      case 'bento':
+        return <BentoTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
       case 'dark':
         return <DarkTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
       case 'minimal':
@@ -56,21 +91,102 @@ const Preview = ({ data, onNavigate, onEdit, template = 'default' }) => {
       case 'colorful':
         return <ColorfulTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
       default:
-        return <DefaultTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
+        return <BentoTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} />;
     }
   };
 
   return (
-    <div style={{ height: '100%', padding: '20px', boxSizing: 'border-box' }}>
-      <div style={{ backgroundColor: theme.backgroundColor, height: '100%', borderRadius: '10px', boxShadow: '0 0 20px rgba(0,0,0,0.3)', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ backgroundColor: '#e0e0e0', height: '30px', borderRadius: '10px 10px 0 0', display: 'flex', alignItems: 'center', padding: '0 10px', flexShrink: 0 }}>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ff5f57' }}></div>
-            <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ffbd2e' }}></div>
-            <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#28ca42' }}></div>
+    <div style={{ 
+      height: '100%', 
+      width: '100%', 
+      padding: '15px', 
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      
+      {/* BROWSER FRAME SHELL */}
+      <div style={{ 
+        backgroundColor: theme.backgroundColor, 
+        height: '100%', 
+        borderRadius: '8px', 
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        overflow: 'hidden',
+        border: '1px solid #e0e0e0'
+      }}>
+        
+        {/* Browser Header (Traffic Lights) */}
+        <div style={{ 
+          backgroundColor: '#f5f5f5', 
+          height: '32px', 
+          display: 'flex', 
+          alignItems: 'center', 
+          padding: '0 12px', 
+          flexShrink: 0, 
+          borderBottom: '1px solid #e0e0e0' 
+        }}>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ff5f57' }}></div>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ffbd2e' }}></div>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#28ca42' }}></div>
+          </div>
+          {/* Mock URL Bar */}
+          <div style={{ 
+            flex: 1, 
+            marginLeft: '15px', 
+            marginRight: '15px', 
+            backgroundColor: '#fff', 
+            height: '20px', 
+            borderRadius: '4px', 
+            border: '1px solid #ddd',
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            fontSize: '10px',
+            color: '#888'
+          }}>
+             {data?.name ? `${data.name.toLowerCase().replace(/\s+/g, '')}.com` : 'portfolio.com'}
           </div>
         </div>
-        {renderTemplate()}
+
+        {/* SCALABLE VIEWPORT AREA */}
+        <div 
+          ref={containerRef} 
+          style={{ 
+            flex: 1, 
+            overflow: 'hidden', // Hide native scrollbars of the parent
+            position: 'relative',
+            backgroundColor: '#e5e5e5' // Background behind the website
+          }}
+        >
+          {/* THE SCALED WRAPPER */}
+          <div style={{
+            width: '1200px', // Force the Desktop Width
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: '50%', // Center horizontally
+            transform: `translateX(-50%) scale(${scale})`, // Scale it
+            transformOrigin: 'top center',
+            overflowY: 'auto', // Scroll inside the scaled website
+            overflowX: 'hidden',
+            backgroundColor: theme.backgroundColor,
+            // Hide scrollbar visual but allow scroll (optional aesthetic)
+            scrollbarWidth: 'thin'
+          }}>
+            {/* Render the actual template inside */}
+            <div style={{ 
+              // We need to inverse the scale on height to make scrolling feel natural, 
+              // or just let it flow. Usually standard flow works fine with overflowY: auto on parent.
+              minHeight: '100%' 
+            }}>
+               {renderTemplate()}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
