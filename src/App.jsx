@@ -41,6 +41,7 @@ function App() {
   const getActiveTab = () => {
     if (page === 'dashboard') return 'dashboard';
     if (page === 'create') return 'form';
+    if (page === 'customize') return 'customize';
     if (page === 'view') return 'form';
     return 'dashboard';
   };
