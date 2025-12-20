@@ -27,6 +27,7 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
     email: '',
     linkedin: '',
     github: '',
+    twitter: '',
     custom: '',
     website: '',
     // Work Experience
@@ -86,7 +87,7 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
   };
 
   return (
-    <div style={{ height: '100vh', backgroundColor: '#f9fafb', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: '100%', backgroundColor: '#f9fafb', display: 'flex', flexDirection: 'column' }}>
       {/* Accordions */}
       <div style={{ flex: '1', padding: '1rem', overflowY: 'auto' }}>
         <div style={{ width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -298,23 +299,6 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
 
                   {section.key === 'social' && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                        <button style={{ padding: '0.75rem', borderRadius: '50%', border: '1px solid #e2e8f0', backgroundColor: 'white', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.3s' }}>
-                          <Mail style={{ width: '1.25rem', height: '1.25rem' }} />
-                        </button>
-                        <button style={{ padding: '0.75rem', borderRadius: '50%', border: '1px solid #e2e8f0', backgroundColor: 'white', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.3s' }}>
-                          <Linkedin style={{ width: '1.25rem', height: '1.25rem' }} />
-                        </button>
-                        <button style={{ padding: '0.75rem', borderRadius: '50%', border: '1px solid #e2e8f0', backgroundColor: 'white', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.3s' }}>
-                          <Github style={{ width: '1.25rem', height: '1.25rem' }} />
-                        </button>
-                        <button style={{ padding: '0.75rem', borderRadius: '50%', border: '1px solid #e2e8f0', backgroundColor: 'white', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.3s' }}>
-                          <Twitter style={{ width: '1.25rem', height: '1.25rem' }} />
-                        </button>
-                        <button style={{ padding: '0.75rem', borderRadius: '50%', border: '1px solid #e2e8f0', backgroundColor: 'white', color: '#94a3b8', cursor: 'pointer', transition: 'all 0.3s' }}>
-                          <Globe style={{ width: '1.25rem', height: '1.25rem' }} />
-                        </button>
-                      </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                           <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
@@ -323,6 +307,96 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
                           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                             <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>Email Address</label>
                             <input type="email" name="email" value={data.email} onChange={handleChange} placeholder="you@example.com" style={{
+                              width: '100%',
+                              padding: '0.625rem',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '0.5rem',
+                              fontSize: '0.875rem',
+                              outline: 'none',
+                              transition: 'all 0.3s',
+                              boxSizing: 'border-box'
+                            }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
+                            <Linkedin style={{ width: '1.25rem', height: '1.25rem' }} />
+                          </div>
+                          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>LinkedIn Profile</label>
+                            <input type="url" name="linkedin" value={data.linkedin} onChange={handleChange} placeholder="https://linkedin.com/in/yourprofile" style={{
+                              width: '100%',
+                              padding: '0.625rem',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '0.5rem',
+                              fontSize: '0.875rem',
+                              outline: 'none',
+                              transition: 'all 0.3s',
+                              boxSizing: 'border-box'
+                            }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
+                            <Github style={{ width: '1.25rem', height: '1.25rem' }} />
+                          </div>
+                          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>GitHub Profile</label>
+                            <input type="url" name="github" value={data.github} onChange={handleChange} placeholder="https://github.com/yourusername" style={{
+                              width: '100%',
+                              padding: '0.625rem',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '0.5rem',
+                              fontSize: '0.875rem',
+                              outline: 'none',
+                              transition: 'all 0.3s',
+                              boxSizing: 'border-box'
+                            }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
+                            <Twitter style={{ width: '1.25rem', height: '1.25rem' }} />
+                          </div>
+                          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>Twitter Profile</label>
+                            <input type="url" name="twitter" value={data.twitter} onChange={handleChange} placeholder="https://twitter.com/yourhandle" style={{
+                              width: '100%',
+                              padding: '0.625rem',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '0.5rem',
+                              fontSize: '0.875rem',
+                              outline: 'none',
+                              transition: 'all 0.3s',
+                              boxSizing: 'border-box'
+                            }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
+                            <Globe style={{ width: '1.25rem', height: '1.25rem' }} />
+                          </div>
+                          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>Website</label>
+                            <input type="url" name="website" value={data.website} onChange={handleChange} placeholder="https://yourwebsite.com" style={{
+                              width: '100%',
+                              padding: '0.625rem',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '0.5rem',
+                              fontSize: '0.875rem',
+                              outline: 'none',
+                              transition: 'all 0.3s',
+                              boxSizing: 'border-box'
+                            }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ backgroundColor: 'white', padding: '0.625rem', border: '1px solid #e2e8f0', borderRadius: '0.5rem', color: '#64748b' }}>
+                            <LinkIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+                          </div>
+                          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#374151', textTransform: 'uppercase' }}>Custom Link</label>
+                            <input type="url" name="custom" value={data.custom} onChange={handleChange} placeholder="https://customlink.com" style={{
                               width: '100%',
                               padding: '0.625rem',
                               border: '1px solid #cbd5e1',
