@@ -57,7 +57,7 @@ function App() {
   };
 
   return (
-    <div style={{ margin: 0, padding: 0, height: '100vh', overflowX: 'hidden', ...appContainerStyle }}>
+    <div style={{ margin: 0, padding: 0, height: '100vh', overflowX: 'hidden', overflowY: page === 'view' ? 'hidden' : 'visible', ...appContainerStyle }}>
       {page === 'create' && <Navbar activeTab={getActiveTab()} onTabChange={handleTabChange} portfolioName={formData.name} onSave={() => {
         let newPortfolios;
         if (isEditing) {
@@ -97,7 +97,7 @@ function App() {
               flushSync(() => setSavedPortfolios(newPortfolios));
             }} />
           </div>
-          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'auto' }}>
+          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'hidden' }}>
             <Preview data={formData} />
           </div>
         </div>
