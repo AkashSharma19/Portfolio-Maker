@@ -1,7 +1,7 @@
 import React from 'react';
 import { Plus, ExternalLink, Edit3, MoreVertical, Layout, Trash2 } from 'lucide-react';
 
-const Dashboard = ({ onNavigate, savedPortfolios, onView, onEdit, onDelete }) => {
+const Dashboard = ({ onNavigate, savedPortfolios, onEdit, onDelete }) => {
   // Convert savedPortfolios to project format
   const projects = savedPortfolios.map((portfolio, index) => ({
     id: portfolio.id || index + 1,
@@ -78,9 +78,6 @@ const Dashboard = ({ onNavigate, savedPortfolios, onView, onEdit, onDelete }) =>
                   </td>
                   <td style={{ padding: '1rem 1.5rem' }}>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button style={{ padding: '0.375rem 0.75rem', backgroundColor: '#9333ea', color: 'white', border: 'none', borderRadius: '0.375rem', fontSize: '0.875rem', cursor: 'pointer', transition: 'background-color 0.3s' }} onMouseEnter={(e) => e.target.style.backgroundColor = '#7c3aed'} onMouseLeave={(e) => e.target.style.backgroundColor = '#9333ea'} onClick={() => onView(project.portfolio)}>
-                        View
-                      </button>
                       <button style={{ padding: '0.375rem 0.75rem', backgroundColor: 'transparent', color: '#9333ea', border: '1px solid #9333ea', borderRadius: '0.375rem', fontSize: '0.875rem', cursor: 'pointer', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#9333ea'; e.target.style.color = 'white'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#9333ea'; }} onClick={() => onEdit(project.portfolio)}>
                         Edit
                       </button>
