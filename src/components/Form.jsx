@@ -150,7 +150,7 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
                             name="name"
                             value={data.name}
                             onChange={handleChange}
-                            placeholder="e.g. Akash Sharma"
+                            placeholder="Alex Rivera"
                             style={{
                               width: '100%',
                               padding: '0.75rem',
@@ -171,13 +171,13 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
                           />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                          <label style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Headline</label>
+                          <label style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Professional Headline - Current Role</label>
                           <input
                             type="text"
                             name="headline"
                             value={data.headline}
                             onChange={handleChange}
-                            placeholder="Product Manager"
+                            placeholder="Senior Product Manager & UX Enthusiast"
                             style={{
                               width: '100%',
                               padding: '0.75rem',
@@ -198,13 +198,13 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
                           />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                          <label style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>About Me</label>
+                          <label style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>About Me / Bio - Professional Headline</label>
                           <textarea
                             name="bio"
                             value={data.bio}
                             onChange={handleChange}
                             rows={4}
-                            placeholder="Write a short bio..."
+                            placeholder="I bridge the gap between engineering and design. Currently building accessible EdTech tools. Obsessed with clean UI and data-driven decisions."
                             style={{
                               width: '100%',
                               padding: '0.75rem',
@@ -235,7 +235,40 @@ const Form = ({ onDataChange, onNavigate, onSave, initialData }) => {
                               name="location"
                               value={data.location}
                               onChange={handleChange}
-                              placeholder="New Delhi, India"
+                              placeholder="San Francisco, CA"
+                              style={{
+                                width: '100%',
+                                paddingLeft: '2.25rem',
+                                paddingRight: '0.75rem',
+                                paddingTop: '0.75rem',
+                                paddingBottom: '0.75rem',
+                                border: '1px solid #cbd5e1',
+                                borderRadius: '0.5rem',
+                                fontSize: '0.875rem',
+                                outline: 'none',
+                                transition: 'all 0.3s',
+                                boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
+                                boxSizing: 'border-box'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.boxShadow = '0 0 0 2px #7c3aed';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.boxShadow = '0 1px 2px 0 rgba(0,0,0,0.05)';
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                          <label style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resume/CV</label>
+                          <div style={{ position: 'relative' }}>
+                            <FileText style={{ position: 'absolute', left: '0.75rem', top: '0.75rem', width: '1rem', height: '1rem', color: '#94a3b8' }} />
+                            <input
+                              type="text"
+                              name="resume"
+                              value={data.resume}
+                              onChange={handleChange}
+                              placeholder="Alex_Rivera_Resume_2025.pdf"
                               style={{
                                 width: '100%',
                                 paddingLeft: '2.25rem',
