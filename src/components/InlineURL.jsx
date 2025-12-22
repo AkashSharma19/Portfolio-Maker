@@ -125,7 +125,7 @@ const InlineURL = ({
     marginTop: '4px'
   };
 
-  const Tag = tagName;
+  const Tag = tagName || 'span';
 
   if (isEditing) {
     return (

@@ -89,7 +89,7 @@ const InlineText = ({
     overflowWrap: 'break-word'
   };
 
-  const Tag = tagName;
+  const Tag = tagName || 'span';
 
   if (isEditing) {
     return (

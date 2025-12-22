@@ -495,7 +495,7 @@ const BentoTemplate = ({ data = {}, onDataChange, popupStates, popupHandlers }) 
               <h4 style={{ fontSize: '14px', fontWeight: '600', color: '#64748b', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Connect with me</h4>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 {safeData.socialLinks.map((social) => {
-                  const IconComponent = social.icon;
+                  const IconComponent = social.icon || Globe;
                   const displayUrl = social.platform === 'email' ? 
                     (social.url ? `mailto:${social.url}` : '') : 
                     social.url;
@@ -602,7 +602,7 @@ const BentoTemplate = ({ data = {}, onDataChange, popupStates, popupHandlers }) 
                     }}>
                       {getFilteredPlatforms().length > 0 ? (
                         getFilteredPlatforms().map((platform) => {
-                          const IconComponent = platform.icon;
+                          const IconComponent = platform.icon || Globe;
                           return (
                             <button
                               key={platform.id}
