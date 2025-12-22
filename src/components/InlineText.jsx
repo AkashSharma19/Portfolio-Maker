@@ -12,22 +12,32 @@ const InlineText = ({
   const [isEditing, setIsEditing] = useState(false);
   const [tempValue, setTempValue] = useState(value);
   const elementRef = useRef(null);
-  const inputRef = useRef(null);
 
   useEffect(() => {
     setTempValue(value);
   }, [value]);
 
   useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.setSelectionRange(tempValue.length, tempValue.length);
+    if (isEditing && elementRef.current) {
+      // Set content and focus
+      elementRef.current.textContent = tempValue;
+      elementRef.current.focus();
+      
+      // Place cursor at the end
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(elementRef.current);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
   }, [isEditing, tempValue]);
 
   const handleBlur = () => {
     setIsEditing(false);
-    onSave(tempValue);
+    const newValue = elementRef.current?.textContent || tempValue;
+    setTempValue(newValue);
+    onSave(newValue);
   };
 
   const handleKeyDown = (e) => {
@@ -41,8 +51,11 @@ const InlineText = ({
     }
   };
 
-  const handleInputChange = (e) => {
-    setTempValue(e.target.value);
+  const handleInput = () => {
+    if (elementRef.current) {
+      const text = elementRef.current.textContent || '';
+      setTempValue(text);
+    }
   };
 
   const baseStyles = {
@@ -65,25 +78,7 @@ const InlineText = ({
     borderRadius: '4px',
     padding: '2px 4px',
     outline: 'none',
-    cursor: 'text',
-    position: 'relative'
-  };
-
-  const inputStyles = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'transparent',
-    border: 'none',
-    outline: 'none',
-    color: 'inherit',
-    font: 'inherit',
-    padding: '0',
-    margin: '0',
-    zIndex: 10,
-    caretColor: '#a855f7'
+    cursor: 'text'
   };
 
   const Tag = tagName;
@@ -92,20 +87,16 @@ const InlineText = ({
     return (
       <Tag
         ref={elementRef}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        onInput={handleInput}
         style={{ ...baseStyles, ...editingStyles }}
         className={className}
-        onBlur={handleBlur}
+        data-placeholder={placeholder}
       >
         {tempValue}
-        <input
-          ref={inputRef}
-          type="text"
-          value={tempValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          onBlur={handleBlur}
-          style={inputStyles}
-        />
       </Tag>
     );
   }
