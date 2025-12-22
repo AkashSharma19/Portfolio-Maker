@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import InlineText from '../InlineText';
 
 // Icons (Lucide React)
 const ArrowUpRight = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>;
@@ -9,9 +10,105 @@ const MapPin = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
 const Briefcase = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>;
 const Send = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>;
 
-const BentoTemplate = ({ data = {} }) => {
+const BentoTemplate = ({ data = {}, onDataChange }) => {
   const [formStatus, setFormStatus] = useState('idle');
-  const safeData = data || {};
+  
+  // Use external data or realistic dummy data as fallback
+  const portfolioData = {
+    name: data?.name || "Akash Sharma",
+    headline: data?.headline || "Product Manager & UX Designer",
+    bio: data?.bio || "I build products that solve real problems. Passionate about EdTech, AI, and simplifying complex user flows.",
+    location: data?.location || "Gurugram, India",
+    email: data?.email || "akash@example.com",
+    linkedin: data?.linkedin || "https://linkedin.com/in/akash",
+    github: data?.github || "https://github.com/akash",
+    profilePicture: data?.profilePicture || null,
+    skills: data?.skills || [
+      { skills: "Product Strategy, User Research, Figma" },
+      { skills: "React, TypeScript, Node.js" },
+      { skills: "Data Analytics, Python" }
+    ],
+    projects: data?.projects || [
+      { 
+        id: 1, 
+        title: "Gainbase", 
+        tagline: "Portfolio Analysis Tool", 
+        skills: "React, Finance",
+        demoLink: "#"
+      },
+      { 
+        id: 2, 
+        title: "LMS Dashboard", 
+        tagline: "Student Management System", 
+        skills: "UX Research, Figma",
+        demoLink: "#"
+      }
+    ],
+    workExperience: data?.workExperience || [
+      {
+        title: "Senior Product Manager",
+        company: "TechCorp Inc.",
+        dates: "2022 - Present"
+      },
+      {
+        title: "UX Designer",
+        company: "Design Studio",
+        dates: "2020 - 2022"
+      }
+    ],
+    education: data?.education || [
+      {
+        degree: "MBA in Product Management",
+        institution: "Stanford University"
+      },
+      {
+        degree: "BSc Computer Science",
+        institution: "MIT"
+      }
+    ],
+    footerMessage: data?.footerMessage || "Got a project in mind? I'm currently open for new opportunities."
+  };
+
+  const safeData = portfolioData;
+
+  // Helper functions to update data and notify parent
+  const updateField = (field, value) => {
+    const updatedData = { ...portfolioData, [field]: value };
+    if (onDataChange) {
+      onDataChange(updatedData);
+    }
+  };
+
+  const updateProject = (index, field, value) => {
+    const newProjects = [...portfolioData.projects];
+    newProjects[index] = { ...newProjects[index], [field]: value };
+    const updatedData = { ...portfolioData, projects: newProjects };
+    if (onDataChange) {
+      onDataChange(updatedData);
+    }
+  };
+
+  const addNewProject = () => {
+    const newProject = {
+      id: Date.now(),
+      title: "New Project",
+      tagline: "Description...",
+      skills: "Technology, Tools",
+      demoLink: "#"
+    };
+    const updatedData = { ...portfolioData, projects: [...portfolioData.projects, newProject] };
+    if (onDataChange) {
+      onDataChange(updatedData);
+    }
+  };
+
+  const removeProject = (index) => {
+    const newProjects = portfolioData.projects.filter((_, i) => i !== index);
+    const updatedData = { ...portfolioData, projects: newProjects };
+    if (onDataChange) {
+      onDataChange(updatedData);
+    }
+  };
 
   const skillsList = safeData.skills 
     ? safeData.skills.flatMap(s => s.skills ? s.skills.split(',') : []) 
@@ -186,7 +283,13 @@ const BentoTemplate = ({ data = {} }) => {
         <nav style={s.nav}>
           <div style={{ display: 'flex', alignItems: 'center', padding: '0 12px', borderRight: '1px solid #e2e8f0' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'linear-gradient(135deg, #a855f7, #ec4899)', marginRight: '8px' }}></div>
-            <span style={{ fontWeight: '700', fontSize: '14px' }}>{safeData.name?.split(' ')[0] || 'Portfolio'}</span>
+            <span style={{ fontWeight: '700', fontSize: '14px' }}>
+              <InlineText 
+                value={safeData.name?.split(' ')[0] || 'Portfolio'}
+                onSave={(val) => updateField('name', val)}
+                style={{ fontWeight: '700', fontSize: '14px' }}
+              />
+            </span>
           </div>
           {['Home', 'Work', 'Experience', 'Contact'].map(item => (
             <button key={item} style={s.navItem} onClick={() => handleScroll(item.toLowerCase())}>{item}</button>
@@ -210,14 +313,27 @@ const BentoTemplate = ({ data = {} }) => {
                 Available for work
               </div>
               <h1 style={{ fontSize: '48px', fontWeight: '800', lineHeight: '1.1', marginBottom: '24px', letterSpacing: '-1px' }}>
-                I'm {safeData.name || 'Akash'}, <br />
+                I'm <InlineText 
+                  tagName="span" 
+                  value={safeData.name} 
+                  onSave={(val) => updateField('name', val)} 
+                  style={{ color: '#0f172a' }}
+                />, <br />
                 <span style={s.textGradient}>
-                  {safeData.headline || 'Product Designer'}
+                  <InlineText 
+                    value={safeData.headline} 
+                    onSave={(val) => updateField('headline', val)} 
+                  />
                 </span>
               </h1>
-              <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#475569', maxWidth: '500px' }}>
-                {safeData.bio || 'Building digital products, brands, and experiences.'}
-              </p>
+              <div style={{ fontSize: '18px', lineHeight: '1.6', color: '#475569', maxWidth: '500px' }}>
+                <InlineText 
+                  multiline={true}
+                  tagName="p"
+                  value={safeData.bio} 
+                  onSave={(val) => updateField('bio', val)} 
+                />
+              </div>
             </div>
             
             {/* Social Dock */}
@@ -271,7 +387,7 @@ const BentoTemplate = ({ data = {} }) => {
             <h2 style={s.sectionTitle}>Selected Work</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
               {safeData.projects.map((project, i) => (
-                <div key={i} style={s.projectCard} className="project-card-hover">
+                <div key={project.id || i} style={s.projectCard} className="project-card-hover">
                    <div style={{ padding: '40px' }}>
                       <h3 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>{project.title}</h3>
                       <p style={{ fontSize: '16px', color: '#64748b', lineHeight: '1.5' }}>{project.tagline}</p>
@@ -288,8 +404,49 @@ const BentoTemplate = ({ data = {} }) => {
                    <a href={project.demoLink} target="_blank" rel="noreferrer" style={{ position: 'absolute', top: '32px', right: '32px', width: '48px', height: '48px', backgroundColor: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', color: '#0f172a' }}>
                      <ArrowUpRight />
                    </a>
+                  <button 
+                    onClick={() => removeProject(i)}
+                    style={{
+                      position: 'absolute',
+                      top: '32px',
+                      left: '32px',
+                      width: '32px',
+                      height: '32px',
+                      backgroundColor: '#ef4444',
+                      borderRadius: '50%',
+                      border: 'none',
+                      color: 'white',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '14px'
+                    }}
+                    title="Remove Project"
+                  >
+                    ×
+                  </button>
                 </div>
               ))}
+              
+              {/* Add New Button */}
+              <div 
+                onClick={addNewProject}
+                style={{
+                  ...s.projectCard,
+                  border: '2px dashed #cbd5e1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  backgroundColor: 'transparent'
+                }}
+              >
+                <div style={{ textAlign: 'center', color: '#64748b' }}>
+                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>+</div>
+                  <div style={{ fontWeight: '600' }}>Add Another Project</div>
+                </div>
+              </div>
             </div>
           </div>
         )}

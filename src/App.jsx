@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { flushSync } from 'react-dom';
 import Dashboard from './components/Dashboard';
-import Form from './components/Form';
 import Preview from './components/Preview';
 import Navbar from './components/NavBar';
 import Templates from './components/Templates';
@@ -33,6 +32,12 @@ function App() {
       localStorage.setItem('portfolioDraft', JSON.stringify({ ...formData, template: selectedTemplate }));
     }
   }, [formData, selectedTemplate, page]);
+
+  const handleInlineEdit = (updatedData) => {
+    setFormData(updatedData);
+    // Auto-save to localStorage
+    localStorage.setItem('portfolioDraft', JSON.stringify({ ...updatedData, template: selectedTemplate }));
+  };
 
   const handleTemplateChange = (template) => {
     setSelectedTemplate(template);
@@ -76,31 +81,13 @@ function App() {
         localStorage.setItem('portfolios', JSON.stringify(newPortfolios));
         flushSync(() => setSavedPortfolios(newPortfolios));
         localStorage.removeItem('portfolioDraft'); // Clear draft after save
+        setPage('dashboard'); // Return to dashboard after save
       }} />}
       {page === 'dashboard' ? (
         <Dashboard onNavigate={setPage} savedPortfolios={savedPortfolios} onEdit={(portfolio) => { setSelectedPortfolioForEdit(portfolio); setIsEditing(true); setFormData(portfolio); setSelectedTemplate(portfolio.template || 'bento'); setPage('create'); }} onDelete={(portfolio) => { const newPortfolios = savedPortfolios.filter(p => p !== portfolio); localStorage.setItem('portfolios', JSON.stringify(newPortfolios)); setSavedPortfolios(newPortfolios); }} />
       ) : page === 'create' ? (
-        <div style={{ display: 'flex', flexDirection: window.innerWidth >= 1024 ? 'row' : 'column', minHeight: 'calc(100vh - 80px)', position: 'relative' }}>
-          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 40%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
-            <Form onDataChange={setFormData} onNavigate={setPage} initialData={isEditing ? selectedPortfolioForEdit : null} onSave={(data) => {
-              let newPortfolios;
-              if (isEditing) {
-                const index = savedPortfolios.findIndex(p => p === selectedPortfolioForEdit);
-                newPortfolios = [...savedPortfolios];
-                newPortfolios[index] = { ...data, template: selectedTemplate };
-                setIsEditing(false);
-                setSelectedPortfolioForEdit(null);
-              } else {
-                const newPortfolio = { id: Date.now(), ...data, template: selectedTemplate };
-                newPortfolios = [...savedPortfolios, newPortfolio];
-              }
-              localStorage.setItem('portfolios', JSON.stringify(newPortfolios));
-              flushSync(() => setSavedPortfolios(newPortfolios));
-            }} />
-          </div>
-          <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh' }}>
-            <Preview data={formData} template={selectedTemplate} />
-          </div>
+        <div style={{ height: 'calc(100vh - 80px)' }}>
+          <Preview data={formData} template={selectedTemplate} onDataChange={handleInlineEdit} />
         </div>
       ) : page === 'customize' ? (
         <div style={{ display: 'flex', flexDirection: window.innerWidth >= 1024 ? 'row' : 'column', minHeight: 'calc(100vh - 80px)', position: 'relative' }}>
@@ -108,7 +95,7 @@ function App() {
             <Templates selectedTemplate={selectedTemplate} onTemplateChange={handleTemplateChange} />
           </div>
           <div style={{ flex: window.innerWidth >= 1024 ? '0 0 60%' : '1', height: window.innerWidth >= 1024 ? '100vh' : '50vh' }}>
-            <Preview data={formData} template={selectedTemplate} />
+            <Preview data={formData} template={selectedTemplate} onDataChange={handleInlineEdit} />
           </div>
         </div>
       ) : page === 'ai-tools' ? (
