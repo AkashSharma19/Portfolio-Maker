@@ -4,7 +4,7 @@ import MinimalTemplate from './templates/MinimalTemplate';
 import ColorfulTemplate from './templates/ColorfulTemplate';
 import React, { useState, useEffect, useRef } from 'react';
 
-const Preview = ({ data, onNavigate, onEdit, template = 'bento', onDataChange }) => {
+const Preview = ({ data, onNavigate, onEdit, template = 'bento', onDataChange, popupStates, popupHandlers }) => {
   const containerRef = useRef(null);
   const [scale, setScale] = useState(1);
   
@@ -81,17 +81,18 @@ const Preview = ({ data, onNavigate, onEdit, template = 'bento', onDataChange })
   }, []);
 
   const renderTemplate = () => {
+    const commonProps = { data, theme, onNavigate, onEdit, onDataChange, popupStates, popupHandlers };
     switch (template) {
       case 'bento':
-        return <BentoTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} onDataChange={onDataChange} />;
+        return <BentoTemplate {...commonProps} />;
       case 'dark':
-        return <DarkTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} onDataChange={onDataChange} />;
+        return <DarkTemplate {...commonProps} />;
       case 'minimal':
-        return <MinimalTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} onDataChange={onDataChange} />;
+        return <MinimalTemplate {...commonProps} />;
       case 'colorful':
-        return <ColorfulTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} onDataChange={onDataChange} />;
+        return <ColorfulTemplate {...commonProps} />;
       default:
-        return <BentoTemplate data={data} theme={theme} onNavigate={onNavigate} onEdit={onEdit} onDataChange={onDataChange} />;
+        return <BentoTemplate {...commonProps} />;
     }
   };
 

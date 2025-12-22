@@ -45,6 +45,11 @@ const InlineText = ({
       e.preventDefault();
       handleBlur();
     }
+    // Allow Enter + Shift for line breaks in multiline mode
+    if (e.key === "Enter" && multiline && e.shiftKey) {
+      // Let the browser handle the line break naturally
+      return;
+    }
     if (e.key === "Escape") {
       setTempValue(value);
       setIsEditing(false);
@@ -78,7 +83,10 @@ const InlineText = ({
     borderRadius: '4px',
     padding: '2px 4px',
     outline: 'none',
-    cursor: 'text'
+    cursor: 'text',
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word'
   };
 
   const Tag = tagName;
@@ -105,17 +113,11 @@ const InlineText = ({
     <Tag
       ref={elementRef}
       onClick={() => setIsEditing(true)}
-      onMouseEnter={(e) => {
-        Object.assign(e.target.style, hoverStyles);
-      }}
-      onMouseLeave={(e) => {
-        Object.assign(e.target.style, baseStyles);
-      }}
       style={baseStyles}
-      className={className}
+      className={`${className} inline-text-hover`}
       title="Click to edit"
     >
-      {value || (placeholder && <span style={{ opacity: 0.5 }}>{placeholder}</span>)}
+      {(value && String(value).trim().length > 0) ? value : (placeholder && <span style={{ opacity: 0.5 }}>{placeholder}</span>)}
     </Tag>
   );
 };
