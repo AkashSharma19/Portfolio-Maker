@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { flushSync } from 'react-dom';
 import Dashboard from './components/Dashboard';
 import Preview from './components/Preview';
-import Navbar from './components/NavBar';
+import Navbar from './components/Navbar';
 import Templates from './components/Templates';
 
 function App() {
